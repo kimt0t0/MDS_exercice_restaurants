@@ -15,9 +15,7 @@ connect()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use('/restaurants', require('./routes/restaurants'))
 
 app.listen(port, () => {
     console.log(`¤----- App listening on port ${port} -----¤`)
