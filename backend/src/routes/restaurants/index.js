@@ -1,5 +1,5 @@
+const { getRestaurants, getRestaurantById, createRestaurant } = require('../../controllers/restaurantsController')
 const router = require('express').Router()
-const { getRestaurants, createRestaurant } = require('../../controllers/restaurantsController')
 
 
 router.route('/')
@@ -14,6 +14,16 @@ router.route('/')
             const restaurantCreated = await createRestaurant(req.body)
             return res.send(restaurantCreated)
         } catch(error) {
+            return res.status(500).send(error)
+        }
+    })
+
+    router.route('/:id')
+    .get(async (req, res) => {
+        try {
+            const restaurant = await getRestaurantById(req.params.id)
+            return res.send(restaurant)
+        } catch (error) {
             return res.status(500).send(error)
         }
     })
