@@ -5,6 +5,15 @@ const getRestaurants = async () => {
     return restaurants
 }
 
+const getRestaurantById = async (id) => {
+    if (!id) {
+        throw new Error('missing restaurant id')
+    }
+    const restaurant = await Restaurant.findById(id)
+    const restaurantObject = restaurant.toObject()
+    return restaurantObject
+} 
+
 const createRestaurant = async (restaurant) => {
 
     if (!restaurant) {
@@ -25,7 +34,9 @@ const createRestaurant = async (restaurant) => {
     return savedRestaurantObject
 }
 
+
 module.exports = {
     getRestaurants,
+    getRestaurantById,
     createRestaurant
 }
