@@ -20,7 +20,7 @@ const restaurantSchema = new Schema({
     photos: {
         type: String
     },
-    plats: [{
+    courses: [{
         type: Schema.Types.ObjectId,
         ref: 'Course'
     }]

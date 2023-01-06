@@ -4,12 +4,13 @@ const { Schema } = mongoose
 
 const courseSchema = new Schema({
     name: {
-        type: String
+        type: String,
+        unique: true
     },
     description: {
         type: String
     },
-    photo: {
+    photos: {
         type: Array
     },
     price: {

@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use('/restaurants', require('./routes/restaurants'))
+app.use('/courses', require('./routes/courses'))
 app.use('/upload', require('./routes/files/upload'))
 
 app.listen(port, () => {
