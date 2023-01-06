@@ -1,0 +1,5 @@
+- prénom
+- nom
+- email
+- mot de passe
+- rôle
