@@ -34,9 +34,23 @@ const createRestaurant = async (restaurant) => {
     return savedRestaurantObject
 }
 
+const updateRestaurantById = async (id, restaurant) => {
+    if (!id) {
+        throw new Error('missing id')
+    }
+    if (!restaurant) {
+        throw new Error('missing restaurant')
+    }
+
+    const restaurantUpdate = await Restaurant.findByIdAndUpdate(id, restaurant, {new: true})
+    const restaurantObject = restaurantUpdate.toObject()
+    return restaurantObject
+}
+
 
 module.exports = {
     getRestaurants,
     getRestaurantById,
-    createRestaurant
+    createRestaurant,
+    updateRestaurantById
 }

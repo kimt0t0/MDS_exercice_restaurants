@@ -1,4 +1,4 @@
-const { getRestaurants, getRestaurantById, createRestaurant } = require('../../controllers/restaurantsController')
+const { getRestaurants, getRestaurantById, createRestaurant, updateRestaurantById } = require('../../controllers/restaurantsController')
 const router = require('express').Router()
 
 
@@ -19,13 +19,23 @@ router.route('/')
     })
 
     router.route('/:id')
-    .get(async (req, res) => {
-        try {
-            const restaurant = await getRestaurantById(req.params.id)
-            return res.send(restaurant)
-        } catch (error) {
-            return res.status(500).send(error)
-        }
-    })
+
+        .get(async (req, res) => {
+            try {
+                const restaurant = await getRestaurantById(req.params.id)
+                return res.send(restaurant)
+            } catch (error) {
+                return res.status(500).send(error)
+            }
+        })
+
+        .patch(async (req, res) => {
+            try {
+                const restaurantUpdate = await updateRestaurantById(req.params.id, req.body)
+                return res.send(restaurantUpdate)
+            } catch (error) {
+                return res.status(500).send(error)
+            }
+        })
 
 module.exports = router
