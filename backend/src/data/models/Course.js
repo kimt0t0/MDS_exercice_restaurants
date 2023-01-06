@@ -16,7 +16,8 @@ const courseSchema = new Schema({
         type: Number
     },
     restaurant: {
-        type: /* relation one to many */
+        type: Schema.Types.ObjectId,
+        ref: 'Restaurant'
     }
 }, { timestamps: true })
 

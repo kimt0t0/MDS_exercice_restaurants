@@ -1,11 +1,7 @@
 const mongoose = require('mongoose')
 
 const { Schema } = mongoose
- nom
-- description
-- adresse
-- photo (upload)
-- plats : Plats
+
 const restaurantSchema = new Schema({
     name: {
         type: String
@@ -19,9 +15,10 @@ const restaurantSchema = new Schema({
     photo: {
         type: Array
     },
-    plats: {
-        type: mongoose.SchemaType.ObjectId
-    }
+    plats: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
+    }]
 }, { timestamps: true })
 
 module.exports = mongoose.models.Restaurant || mongoose.model('Restaurant', restaurantSchema)
