@@ -1,4 +1,6 @@
 const Restaurant = require('../data/models/Restaurant')
+const Image = require('../data/models/Image')
+const Course = require('../data/models/Course')
 
 const getRestaurants = async () => {
     const restaurants = await Restaurant.find()
@@ -47,10 +49,20 @@ const updateRestaurantById = async (id, restaurant) => {
     return restaurantObject
 }
 
+const deleteRestaurantById = async (id) => {
+    if (!id) {
+        throw new Error('missing id')
+    }
+    await Image.remove({user: id}).exec()
+    await Course.remove({user: id}).exec()
+    await Restaurant.findByIdAndDelete(id)
+}
+
 
 module.exports = {
     getRestaurants,
     getRestaurantById,
     createRestaurant,
-    updateRestaurantById
+    updateRestaurantById,
+    deleteRestaurantById
 }

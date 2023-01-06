@@ -1,4 +1,4 @@
-const { getRestaurants, getRestaurantById, createRestaurant, updateRestaurantById } = require('../../controllers/restaurantsController')
+const { getRestaurants, getRestaurantById, createRestaurant, updateRestaurantById, deleteRestaurantById } = require('../../controllers/restaurantsController')
 const router = require('express').Router()
 
 
@@ -33,6 +33,15 @@ router.route('/')
             try {
                 const restaurantUpdate = await updateRestaurantById(req.params.id, req.body)
                 return res.send(restaurantUpdate)
+            } catch (error) {
+                return res.status(500).send(error)
+            }
+        })
+
+        .delete(async (req, res) => {
+            try {
+                await deleteRestaurantById(req.params.id)
+                return res.send(`User with id: ${req.params.id} has been deleted`)
             } catch (error) {
                 return res.status(500).send(error)
             }
