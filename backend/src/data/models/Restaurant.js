@@ -4,12 +4,13 @@ const { Schema } = mongoose
 
 const restaurantSchema = new Schema({
     name: {
-        type: String
+        type: String,
+        unique: true
     },
     description: {
         type: String
     },
-    adresse: {
+    address: {
         type: String
     },
     photo: {
