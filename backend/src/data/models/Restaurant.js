@@ -13,9 +13,10 @@ const restaurantSchema = new Schema({
     address: {
         type: String
     },
-    photo: {
-        type: Array
-    },
+    photos: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Image'
+    }],
     plats: [{
         type: Schema.Types.ObjectId,
         ref: 'Course'

@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { getRestaurants, createRestaurant } = require('../../controllers/restaurantsController')
 
+
 router.route('/')
 
     .get(async (req, res) => {
