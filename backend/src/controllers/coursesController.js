@@ -19,7 +19,10 @@ const getCourseById = async (id) => {
 const createCourse = async (course, restaurantId) => {
 
     if (!course) {
-        throw new Error('missing data')
+        throw new Error('missing course data')
+    }
+    if (!restaurantId) {
+        throw new Error('missing restaurant id')
     }
 
     const _course = new Course({
@@ -29,31 +32,27 @@ const createCourse = async (course, restaurantId) => {
         price: course.price,
         restaurant: restaurantId
     })
-    const savedCourse = await _course.save()
-    const savedCourseObject = savedCourse.toObject()
-
-    if (savedCourse) {
-        console.log('ajout du plat au restaurant')
-        await Restaurant.findOneByIdAndUpdate(restaurantId,
-            { $push: { courses: savedCourse._id } },
-            { new: true, useFindAndModify: false })
-        console.log('plat ajouté au restaurant')
+    const courseCreated = await _course.save()
+    if (courseCreated.restaurant) {
+        await Restaurant.findByIdAndUpdate(courseCreated.restaurant,
+        { $push: { files: courseCreated._id } },
+        { new: true, useFindAndModify: false })
     }
 
-    return savedCourseObject
+    return courseCreated
 }
 
-const updateCourseById = async (id, restaurant) => {
+const updateCourseById = async (id, course) => {
     if (!id) {
         throw new Error('missing id')
     }
-    if (!restaurant) {
-        throw new Error('missing restaurant')
+    if (!course) {
+        throw new Error('missing course')
     }
 
-    const restaurantUpdate = await Restaurant.findByIdAndUpdate(id, restaurant, {new: true})
-    const restaurantObject = restaurantUpdate.toObject()
-    return restaurantObject
+    const courseUpdate = await Course.findByIdAndUpdate(id, course, {new: true})
+    const courseObject = courseUpdate.toObject()
+    return courseObject
 }
 
 const deleteCourseById = async (id) => {
@@ -62,7 +61,7 @@ const deleteCourseById = async (id) => {
     }
     await Image.remove({user: id}).exec()
     await Course.remove({user: id}).exec()
-    await Restaurant.findByIdAndDelete(id)
+    await Restaurant.findByIdAndUpdate(id).populate(courses)
 }
 
 

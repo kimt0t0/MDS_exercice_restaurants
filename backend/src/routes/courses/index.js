@@ -11,8 +11,7 @@ router.route('/')
 
     .post(async (req, res) => {
         try {
-            console.log("course creation...")
-            const courseCreated = await createCourse(req.body, '63b832faa974c4aa33659830')
+            const courseCreated = await createCourse(req.body, '63bab05bdbc5d576d5bbd72b')
             return res.send(courseCreated)
         } catch(error) {
             return res.status(500).send(error)
