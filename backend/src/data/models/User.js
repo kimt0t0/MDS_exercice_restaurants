@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
+const { Schema } = mongoose
 const bcrypt = require('bcryptjs')
 
-const { Schema } = mongoose
 
 const userSchema = new Schema({
     fisrtName: {
@@ -18,34 +18,35 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-    required: true
+        required: true
     },
     role: {
-        type: String
+        type: String,
+        enum: ['admin', 'classic'],
+        default: 'classic'
     }
 }, { timestamps: true })
 
-userSchema.pre('save', (next) => {
-    const user = this
 
+
+userSchema.pre('save', async function (next) {
+    const user = this
+    console.log("encrypting passord...")
     if (user.isModified('password') || user.isNew) {
-        bcrypt.genSalt(15, (error, salt) => {
-            if (error) {
-                throw new Error(error)
-            }
+        try {
+            const salt = await bcrypt.genSalt(15)
+            const hash = await bcrypt.hash(user.password, salt)
             user.password = hash
             return next()
-        })
+        } catch (error) {
+            throw new Error(error)
+        }
     }
 })
 
-userSchema.methods.comparePasswords = (password, callback) => {
-    bcrypt.compare(password, this.password, (error, isMatch) => {
-        if (error) {
-            return callback(error, null)
-        }
-        return callback(null, isMatch)
-    })
+userSchema.methods.comparePasswords = async (password) => {
+    const isPasswordValid = await bcrypt.compare(password, this.password)
+    return isPasswordValid
 }
 
 module.exports = mongoose.models.User || mongoose.model('User', userSchema)
