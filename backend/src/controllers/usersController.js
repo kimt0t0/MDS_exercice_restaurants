@@ -1,5 +1,7 @@
 const User = require('../data/models/User')
 
+
+
 const createUser = async (user) => {
     if (!user.email || !user.password) {
         throw new Error('missing data')
@@ -20,7 +22,16 @@ const createUser = async (user) => {
     return savedUserObject
 }
 
-module.exports = {
-    createUser
 
+
+const getUsers = async () => {
+    const users = await User.find().select('-password')
+    return users
+}
+
+
+
+module.exports = {
+    createUser,
+    getUsers
 }
