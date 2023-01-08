@@ -15,6 +15,7 @@ connect()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.use('/auth', require('./routes/auth'))
 app.use('/users', require('./routes/users'))
 app.use('/restaurants', require('./routes/restaurants'))
 app.use('/courses', require('./routes/courses'))
