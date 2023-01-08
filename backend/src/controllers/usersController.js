@@ -31,7 +31,19 @@ const getUsers = async () => {
 
 
 
+const getUserById = async(userId) => {
+    if (!userId) {
+        throw new Error('missing user id')
+    }
+    const _user = await User.findById(userId).select('-password')
+    const userObject = _user.toObject()
+    return userObject
+}
+
+
+
 module.exports = {
     createUser,
-    getUsers
+    getUsers,
+    getUserById
 }

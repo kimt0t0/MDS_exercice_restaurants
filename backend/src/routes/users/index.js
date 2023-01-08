@@ -1,4 +1,4 @@
-const { createUser, getUsers } = require('../../controllers/usersController')
+const { createUser, getUsers, getUserById } = require('../../controllers/usersController')
 const router = require('express').Router()
 
 router.route('/')
@@ -18,6 +18,18 @@ router.route('/')
         try {
             const users = await getUsers()
             return res.send(users)
+        } catch (error) {
+            return res.status(500).send(error)
+        }
+    })
+
+    router.route('/:id')
+
+    .get(async (req, res) => {
+        try {
+            const userId = req.params.id
+            const user = await getUserById(userId)
+            return res.send(user)
         } catch (error) {
             return res.status(500).send(error)
         }
