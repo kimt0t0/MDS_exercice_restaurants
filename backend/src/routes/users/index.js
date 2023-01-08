@@ -1,4 +1,4 @@
-const { createUser, getUsers, getUserById, updateUserById } = require('../../controllers/usersController')
+const { createUser, getUsers, getUserById, updateUserById, deleteUserById } = require('../../controllers/usersController')
 const router = require('express').Router()
 
 router.route('/')
@@ -41,6 +41,16 @@ router.route('/')
             const { body } = req
             const updatedUser = await updateUserById(userId, body)
             return res.send(updatedUser)
+        } catch (error) {
+            return res.status(500).send(error)
+        }
+    })
+
+    .delete(async (req, res) => {
+        try {
+            const userId = req.params.id
+            const deletedUser = await deleteUserById(userId)
+            return res.send(`deleted user with id ${userId}`)
         } catch (error) {
             return res.status(500).send(error)
         }

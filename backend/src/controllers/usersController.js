@@ -41,7 +41,7 @@ const getUserById = async(userId) => {
 }
 
 
-const updateUserById = async(userId, user) => {
+const updateUserById = async (userId, user) => {
     if (!userId || ! user) {
         throw new Error('missing data')
     }
@@ -51,10 +51,18 @@ const updateUserById = async(userId, user) => {
 }
 
 
+const deleteUserById = async (userId) => {
+    if (!userId) {
+        throw new Error('missing user id')
+    }
+    await User.findByIdAndDelete(userId)
+}
+
 
 module.exports = {
     createUser,
     getUsers,
     getUserById,
-    updateUserById
+    updateUserById,
+    deleteUserById
 }
