@@ -41,9 +41,20 @@ const getUserById = async(userId) => {
 }
 
 
+const updateUserById = async(userId, user) => {
+    if (!userId || ! user) {
+        throw new Error('missing data')
+    }
+    const _user = await User.findByIdAndUpdate(userId, user, {new:true}).select('-password')
+    const userObject = _user.toObject()
+    return userObject
+}
+
+
 
 module.exports = {
     createUser,
     getUsers,
-    getUserById
+    getUserById,
+    updateUserById
 }

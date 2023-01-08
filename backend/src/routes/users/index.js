@@ -1,4 +1,4 @@
-const { createUser, getUsers, getUserById } = require('../../controllers/usersController')
+const { createUser, getUsers, getUserById, updateUserById } = require('../../controllers/usersController')
 const router = require('express').Router()
 
 router.route('/')
@@ -30,6 +30,17 @@ router.route('/')
             const userId = req.params.id
             const user = await getUserById(userId)
             return res.send(user)
+        } catch (error) {
+            return res.status(500).send(error)
+        }
+    })
+
+    .patch(async (req, res) => {
+        try {
+            const userId = req.params.id
+            const { body } = req
+            const updatedUser = await updateUserById(userId, body)
+            return res.send(updatedUser)
         } catch (error) {
             return res.status(500).send(error)
         }
